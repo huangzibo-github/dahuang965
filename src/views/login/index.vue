@@ -62,14 +62,29 @@ export default {
   },
   methods: {
     submitLogin () {
-      this.$refs.myForm.validate(function (isOK) {
+      this.$refs.myForm.validate((isOK) => {
         if (isOK) {
-          console.log('检验成功')
+          // console.log(this.$axios)
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.LoginForm
+          }).then(result => {
+            console.log(result)
+            this.$router.push('/home')
+          }).catch(error => {
+            console.log(error)
+            this.$message({
+              message: '手机号或验证码不正确',
+              type: 'warning'
+            })
+          })
         }
       })
     }
   }
 }
+
 </script>
 <style lang="less" scoped>
 .login {
